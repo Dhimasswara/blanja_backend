@@ -22,6 +22,17 @@ const validateProducts = (req, res, next) => {
     next()
   }
   
+  const validateSeller = (req, res, next) => {
+    const { name, email } = req.body
+    try {
+      if (name === '' || email === '') throw new Error('kosong')
+      if (!isNaN(name)) throw new Error('input bukan text')
+    } catch (error) {
+      return res.send(`${error}`)
+    }
+    next()
+  }
+
   const myCors = (req,res,next)=>{
     response.setHeader('Access-Control-Allow-Origin', '*');
     response.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
@@ -29,4 +40,4 @@ const validateProducts = (req, res, next) => {
     next();
   }
 
-  module.exports = {validateProducts, validateCustomers, myCors}
+  module.exports = {validateProducts, validateCustomers, validateSeller, myCors}

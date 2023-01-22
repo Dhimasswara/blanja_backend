@@ -11,7 +11,11 @@
 | [Http-errors] | npm i http-errors |
 | [helmet] | npm i helmet |
 | [dotenv] | npm i dot env |
-
+| [jsonwebtoken] | npm i json-webtoken |
+| [multer] | npm i multer |
+| [bcrypt] | npm i bcrypt |
+| [bcryptjs] npm i bcryptjs |
+| [uuid] | npm i uuid |
 
 
 

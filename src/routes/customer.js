@@ -12,7 +12,7 @@ router.delete("/:id", protect, customerController.deleteCustomer);
 
 
 // Authenticate
-router.post("/serv/register", customerController.registerCustomer);
+router.post("/serv/register", validateCustomers, customerController.registerCustomer);
 router.post('/serv/login', customerController.loginCustomer);
 router.post('/serv/refreshtoken', customerController.refreshTokenCustomer);
 router.get('/serv/profile', protect, customerController.profileCustomer);

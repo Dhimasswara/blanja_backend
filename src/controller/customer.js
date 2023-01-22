@@ -62,6 +62,9 @@ const customerController = {
         const id = req.params.id;
         const {name, gender, phone, email, password, dob} = req.body;
         const { rowCount } = await findId(id);
+        const role = req.payload.id;
+  
+        if (role !== id) return res.json({ message: `Permission Denied, token not match!` });
         if (!rowCount) {
           return res.json({message: "ID is Not Found"})
         }
@@ -94,6 +97,9 @@ const customerController = {
       try {
         const id = req.params.id;
         const { rowCount } = await findId(id);
+        const role = req.payload.id;
+  
+        if (role !== id) return res.json({ message: `Permission Denied, token not match!` });
 
         if (!rowCount) {
           return res.json({message: "ID is Not Found"})
@@ -161,11 +167,11 @@ const customerController = {
         delete user.password;
         delete user.gender;
         delete user.dob;
-        delete user.id_customer;
   
         let payload = {
           email: user.email,
-          role: user.role
+          role: user.role,
+          id: user.id_customer
         }
   
         user.token = authHelper.generateToken(payload);
@@ -205,7 +211,8 @@ const customerController = {
 			const email = req.payload.email
 			const { rows: [user] } = await findEmail(email);
       const role = req.payload.role;
-  
+      
+
       if (role !== 'customer') return res.json({ message: `Permission Denied, cannot get customer!` });
 
       delete user.id_customer;

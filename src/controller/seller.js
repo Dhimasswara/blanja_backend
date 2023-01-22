@@ -59,36 +59,11 @@ const {
 
 
     updateSeller: async (req, res) => {
-      try {
-        const id = req.params.id;
-        const {name,gender,phone,email,password,dob, role} = req.body;
-        const { rowCount } = await findId(id);
-        if (!rowCount) {
-         return res.json({message: "ID is Not Found"})
-        }
-        const data = {
-          id,
-          name,
-          gender,
-          phone,
-          email,
-          password,
-          dob,
-          role,
-        };
-        updateSeller(data)
-          .then((result) =>
-            commonHelper.response(res, result.rows, 200, "Seller updated")
-          )
-          .catch((err) => res.send(err));
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
-    updatSeller: async (req, res) => {
       const id = req.params.id;
       const {name,gender,phone,email,password,dob} = req.body;
+      const role = req.payload.id;
+
+      if (role !== id) return res.json({ message: 'Permission denied, token not match'})
   
       const { rowCount } = await findId(id);
   
@@ -120,6 +95,11 @@ const {
       try {
         const id = req.params.id;
         const { rowCount } = await findId(id);
+        const role = req.payload.id;
+
+        if (role !== id) return res.json({ message: 'Permission denied, token not match'})
+
+
         if (!rowCount) {
          return res.json({message: "ID is Not Found"})
         }
@@ -182,7 +162,8 @@ const {
   
         let payload = {
           email: seller.email,
-          role: seller.role
+          role: seller.role,
+          id: seller.id_seller
         }
   
         seller.token = authHelper.generateToken(payload);
